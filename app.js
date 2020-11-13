@@ -95,19 +95,29 @@ document.addEventListener('DOMContentLoaded',() => {
     //rotate the ships
     function rotate() {
         if (isHorizontal) {
+            if(typeof destroyer[0] != 'undefined')
             destroyer[0].classList.toggle('destroyer-container-vertical');
+            if(typeof submarine[0] != 'undefined')
             submarine[0].classList.toggle('submarine-container-vertical');
+            if(typeof cruiser[0] != 'undefined')
             cruiser[0].classList.toggle('cruiser-container-vertical');
+            if(typeof battleship[0] != 'undefined')
             battleship[0].classList.toggle('battleship-container-vertical');
+            if(typeof carrier[0] != 'undefined')
             carrier[0].classList.toggle('carrier-container-vertical');
             isHorizontal = false;
             return
         }
         if (!isHorizontal) {
+            if(typeof destroyer[0] != 'undefined')
             destroyer[0].classList.toggle('destroyer-container-vertical');
+            if(typeof submarine[0] != 'undefined')
             submarine[0].classList.toggle('submarine-container-vertical');
+            if(typeof cruiser[0] != 'undefined')
             cruiser[0].classList.toggle('cruiser-container-vertical');
+            if(typeof battleship[0] != 'undefined')
             battleship[0].classList.toggle('battleship-container-vertical');
+            if(typeof carrier[0] != 'undefined')
             carrier[0].classList.toggle('carrier-container-vertical');
             isHorizontal = true;
             return
@@ -209,23 +219,28 @@ document.addEventListener('DOMContentLoaded',() => {
     let carrierCount = 0;
 
     function revealSquare(square){
-        if (!square.classList.contains('boom') || !square.classList.contains('miss')){
+        if (!square.classList.contains('boom') && !square.classList.contains('miss')){
             if (square.classList.contains('destroyer')) destroyerCount++
             if (square.classList.contains('submarine')) submarineCount++
             if (square.classList.contains('cruiser')) cruiserCount++
             if (square.classList.contains('battleship')) battleshipCount++
             if (square.classList.contains('carrier')) carrierCount++
+          
+            if (square.classList.contains('taken')){
+                square.classList.add('boom')
+            }
+            else{
+                square.classList.add('miss')
+            }
+            checkForWins();
+            currentPlayer = 'computer'
+            playGame()
         }
+
+
     
-        if (square.classList.contains('taken')){
-            square.classList.add('boom')
-        }
-        else{
-            square.classList.add('miss')
-        }
-        checkForWins();
-        currentPlayer = 'computer'
-        playGame()
+        
+        
     }
 
     let cpudestroyerCount = 0;
@@ -259,7 +274,7 @@ document.addEventListener('DOMContentLoaded',() => {
     function checkHumanWin(){
         if (destroyerCount === 2){
             infoDisplay.innerHTML = "You sunk the computer's destroyer"
-            destroyersCount = 10
+            destroyerCount = 10
         }
         if (submarineCount === 3){
             infoDisplay.innerHTML = "You sunk the computer's submarine"
@@ -287,7 +302,7 @@ document.addEventListener('DOMContentLoaded',() => {
     function checkCPUWin(){
         if (cpudestroyerCount === 2){
             infoDisplay.innerHTML = "You sunk the player's destroyer"
-            cpudestroyersCount = 10
+            cpudestroyerCount = 10
         }
         if (cpusubmarineCount === 3){
             infoDisplay.innerHTML = "You sunk the players's submarine"
