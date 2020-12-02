@@ -21,12 +21,22 @@ document.addEventListener('DOMContentLoaded',() => {
 
     //create board
     function createBoard(grid, squares){
-        for(let i =0; i < width*width; i++){
-            const square = document.createElement('div');
-            square.dataset.id = i;
-            grid.appendChild(square);
-            squares.push(square);
+        let table = document.createElement('table');
+        table.classList = "playtable";
+        let tbody = document.createElement('tbody');
+        for(let i=0; i < width; i++){
+            let tr = document.createElement('tr');
+            for(let j=0; j < width; j++){
+                const square = document.createElement('td');
+                square.dataset.id = i*10+j;
+                square.classList = "gridSquare";
+                tr.appendChild(square);
+                squares.push(square);
+            }
+            tbody.appendChild(tr);
         }
+        table.appendChild(tbody);
+        grid.appendChild(table);
     }
 
     createBoard(userGrid, userSquares);

@@ -2,6 +2,16 @@
 	display: flex;
 }
 
+.playtable {
+	width: 400px;
+	height: 400px;
+	border-collapse: collapse;
+}
+
+.gridSquare {
+	border: 3px solid white;
+}
+
 #grid-user{
 	width: 400px;
 	height: 400px;
