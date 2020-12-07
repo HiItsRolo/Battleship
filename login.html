@@ -2,7 +2,7 @@
 <html>
 
 <head>
-<title>Battleship</title>
+<title>LoginPage</title>
 
 
 
@@ -11,7 +11,28 @@
 
 <body>
 
-HELLO, This is Index.HTML
+<div id = "parameters">
+
+	<form id = "login" action = "login.php" method ="post">
+		<fieldset class="inputs">
+			<ul>
+				<li>
+				 <label for="username">Username:</label>
+				 <input type="text" id="username" name="username">
+				</li>
+				<li>
+					<label for="password">Password:</label>
+					<input type="password" id="password" name="password">
+				</li>
+				<input type="submit" value ="Login">
+				<input type="button" value ="Create new account" onclick ="location.href = 'signup.html'">
+			</ul>
+		 </fieldset>
+
+	</form>
+</div>
+
+
 
 </body>
 

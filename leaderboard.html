@@ -2,16 +2,42 @@
 <html>
 
 <head>
-<title>Battleship</title>
+<title>Battleship Leaderboards</title>
 
-
+<script src="leaderboard.js"></script>
 
 </head>
 
 
 <body>
 
-HELLO, This is Index.HTML
+<table>
+    <thead>
+        <tr>
+            <th> Username
+            </th>
+            <th>
+                 Wins
+            </th>
+            <th>
+                Losses
+            </th>
+            <th>
+                Games Played
+            </th>
+        </tr>
+    </thead>
+    <tbody id = "leaderboard">
+
+    </tbody>
+</table>
+
+<div>
+    <button type = 'button' onclick = "sortLeaderboardByWins();">Sort by Wins</button>
+    <button type = 'button' onclick = "sortLeaderboardByLosses();">Sort by Losses</button>
+    <button type = 'button' onclick = "sortLeaderboardByName();">Sort by Name</button>
+    <button type = 'button' onclick = "sortLeaderboardByGamesPlayed();">Sort by Games Played</button>
+</div>
 
 </body>
 

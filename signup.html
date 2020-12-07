@@ -11,7 +11,31 @@
 
 <body>
 
-HELLO, This is Index.HTML
+    <div id = "parameters">
+
+        <form id = "signup" action = "signup.php" method ="post">
+            <fieldset class="inputs">
+                <ul>
+                    <li>
+                     <label for="username">Username:</label>
+                     <input type="text" id="username" name="username">
+                    </li>
+                    <li>
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password">
+                    </li>
+                    <li>
+                        <label for="repassword">Reenter Password:</label>
+                        <input type="password" id="repassword" name="repassword">
+                    </li>
+                    <input type="submit" value ="Register">
+                    <input type="button" value ="Sign in to existing account" onclick ="location.href = 'login.html'">
+                </ul>
+             </fieldset>
+    
+        </form>
+    </div>
+
 
 </body>
 
