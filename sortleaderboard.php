@@ -1,22 +1,28 @@
 <?php
 include_once("connectToDB.php");
   $sort = $_GET['sort'];
+  $asc = $_GET['asc'];
 
   if($sort == "Wins"){
-      $sql = $conn->query("SELECT * FROM users ORDER BY numWins DESC"); // query the person
+      if($asc == "true")
+        $sql = $conn->query("SELECT * FROM users ORDER BY NumWins ASC"); // query the users by ascending order of number of wins
+      else
+        $sql = $conn->query("SELECT * FROM users ORDER BY NumWins DESC"); // query the users by descending order of number of wins
   }
 
-  else if($sort == "Losses"){
-      $sql = $conn->query("SELECT * FROM users ORDER BY numLosses DESC"); // query the person
+  else if($sort == "Time"){
+      if($asc == "true")
+        $sql = $conn->query("SELECT * FROM users ORDER BY TimePlayed ASC"); // query the users by ascending order of time played
+      else
+        $sql = $conn->query("SELECT * FROM users ORDER BY TimePlayed DESC"); // query the users by descending order of time played
   }
 
-  else if($sort == "Name"){
-      $sql = $conn->query("SELECT * FROM users ORDER BY UserName"); // query the person
-  }
-     
 
   else if($sort == "Games"){ 
-      $sql = $conn->query("SELECT * FROM users ORDER BY numGames DESC"); // query the person
+      if($asc == "true")
+      $sql = $conn->query("SELECT * FROM users ORDER BY NumGames ASC"); // query the users by ascending order of number of games
+      else 
+        $sql = $conn->query("SELECT * FROM users ORDER BY NumGames DESC"); // query the users by descending order of number of games
   }
 
 

@@ -40,14 +40,13 @@ echo "<br>Connected successfully";
 
 $sql = "CREATE TABLE users(
 	UserId int(11) NOT NULL auto_increment,
-	GameOpponent varchar(50) NOT NULL,
 	GameId int(11) NOT NULL,
-	GamePlayer varchar(11) NOT NULL,
 	UserName varchar(50) NOT NULL,
 	UserPassword varchar(50) NOT NULL ,
-	numWins int(11) NOT NULL,
-	numGames int(11) NOT NULL,
-	numLosses int(11) NOT NULL,
+	NumWins int(11) NOT NULL,
+	NumGames int(11) NOT NULL,
+	NumLosses int(11) NOT NULL,
+	TimePlayed time NOT NULL,
 	PRIMARY KEY (UserId)
 )";
 
@@ -56,6 +55,25 @@ if ($conn->query($sql) === TRUE) {
 } else {
   echo "<br>Error creating table: " . $conn->error;
 }
+
+
+$sql = "CREATE TABLE game(
+	UserName varchar(50) NOT NULL,
+	GameOpponent varchar(50) NOT NULL,
+	GameId int(11) NOT NULL,
+	GameColor varchar(10) NOT NULL,
+	CurrentTurn varchar(10) NOT NULL,
+	PlayerAction varchar(50) NOT NULL,
+	OpponentAction varchar(50) NOT NULL,
+	GameState varchar(50) NOT NULL
+)";
+
+if ($conn->query($sql) === TRUE) {
+  echo "<br>Table game created successfully";
+} else {
+  echo "<br>Error creating table: " . $conn->error;
+}
+
 
 
 

@@ -6,9 +6,9 @@ if (isset($_SESSION['username']) && $_SESSION['loggedin'] == true){
     $uid = $_SESSION['id'];
     $sql = $conn->query("SELECT * FROM users WHERE UserName= '$uname' AND UserId = $uid LIMIT 1"); // query the person
     $row = $sql->fetch_assoc();
-    $losses = $row['numLoses'] + 1;
-    $games = $row['numGames'] + 1;
-    $sql = $conn->query("UPDATE users SET numLosses = $losses, numGames = $games WHERE UserName = '$uname' AND UserId = $uid;");
+    $losses = $row['NumLoses'] + 1;
+    $games = $row['NumGames'] + 1;
+    $sql = $conn->query("UPDATE users SET NumLosses = $losses, NumGames = $games WHERE UserName = '$uname' AND UserId = $uid;");
 
 }
 else{

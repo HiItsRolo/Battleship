@@ -1,3 +1,61 @@
+
+
+function startSession(){
+    
+    let xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState === XMLHttpRequest.DONE){
+			if(xhr.status === 200) {
+
+			}
+		}
+	}
+
+	xhr.open("POST", "startgamesession.php",true);	
+	xhr.send();
+}
+
+let interval = setTimeout(testServer,5000);
+
+function testServer(){
+    let test = document.getElementById("TESTING");
+
+    let xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState === XMLHttpRequest.DONE){
+			if(xhr.status === 200) {
+
+				let data = JSON.parse(xhr.responseText);
+      
+                test.innerHTML = data;
+
+			}
+		}
+	}
+
+	xhr.open("POST", "receivemessage.php",true);	
+    xhr.send();
+    interval = setTimeout(testServer,5000);
+}
+
+function sendMessage(){
+    let comms = JSON.stringify(document.getElementById("comms").value);
+    let test = document.getElementById("TESTING");
+
+    let xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState === XMLHttpRequest.DONE){
+			if(xhr.status === 200) {
+    
+			}
+		}
+	}
+
+	xhr.open("GET", "sendmessage.php?message=" + comms,true);	
+	xhr.send();
+}
+
+
 document.addEventListener('DOMContentLoaded',() => {
     const userGrid = document.getElementById('grid-user');
     const computerGrid = document.getElementById('grid-computer');
