@@ -1,5 +1,5 @@
 
-
+/*
 function startSession(){
     
     let xhr = new XMLHttpRequest();
@@ -55,6 +55,10 @@ function sendMessage(){
 	xhr.send();
 }
 
+*/
+
+
+
 
 document.addEventListener('DOMContentLoaded',() => {
     const userGrid = document.getElementById('grid-user');
@@ -75,7 +79,7 @@ document.addEventListener('DOMContentLoaded',() => {
     const width = 10;
     let isHorizontal = true;
     let isGameOver = false;
-    let currentPlayer = 'user'
+    let currentPlayer = 'user';
 
     //create board
     function createBoard(grid, squares){
@@ -86,7 +90,7 @@ document.addEventListener('DOMContentLoaded',() => {
             let tr = document.createElement('tr');
             for(let j=0; j < width; j++){
                 const square = document.createElement('td');
-                square.dataset.id = i*10+j;
+                square.dataset.id = i*10 + j;
                 square.classList = "gridSquare";
                 tr.appendChild(square);
                 squares.push(square);
@@ -229,25 +233,50 @@ document.addEventListener('DOMContentLoaded',() => {
         let shipClass = shipNameWithLastId.slice(0,-2)
 
         let lastShipIndex = parseInt(shipNameWithLastId.substr(-1))
-        let shipLastId = lastShipIndex + parseInt(this.dataset.id)
 
-        const notAllowedHorizontal = [0,10,20,30,40,50,60,70,80,90,1,11,21,31,41,51,61,71,81,91,2,22,32,42,52,62,72,82,92,3,13,23,33,43,53,63,73,83,93]
+        var shipLastId;
+        var newNotAllowedHorizontal;
+        var newNotAllowedVertical;
+        var selectedShipIndex;
+
+        if(isHorizontal){
+            shipLastId = lastShipIndex + parseInt(this.dataset.id)
+            const notAllowedHorizontal = [0,10,20,30,40,50,60,70,80,90,100,1,11,21,31,41,51,61,71,81,91,101,2,12,22,32,42,52,62,72,82,92,102,3,13,23,33,43,53,63,73,83,93,103];
+            newNotAllowedHorizontal = notAllowedHorizontal.splice(0, (10*lastShipIndex)+(1*lastShipIndex));
+            selectedShipIndex = parseInt(selectedShipNameWithIndex.substr(-1));
+            shipLastId = shipLastId - selectedShipIndex;
+
+        }
+
+        else{
+            shipLastId = (lastShipIndex*width) + parseInt(this.dataset.id)
+            const notAllowedVertical = [109,108,107,106,105,104,103,102,101,100,9,8,7,6,5,4,3,2,1,0,119,118,117,116,115,114,113,112,111,110,19,18,17,16,15,14,13,12,11,10,129,128,127,126,125,124,123,122,121,120,29,28,27,26,25,24,23,22,21,20,139,138,137,136,135,134,133,132,131,130,39,38,37,36,35,34,33,32,31,30]
+            newNotAllowedVertical = notAllowedVertical.splice(0, (20*lastShipIndex));
+            selectedShipIndex = parseInt(selectedShipNameWithIndex.substr(-1));
+            shipLastId = shipLastId - (selectedShipIndex*width);
+
+        }
         
-        let newNotAllowedHorizontal = notAllowedHorizontal.splice(0, 10*lastShipIndex)
-        const notAllowedVertical = [99,98,97,96,95,94,93,92,91,90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,64,63,62,61,60]
-
-        let newNotAllowedVertical = notAllowedVertical.splice(0,10*lastShipIndex)
+        
+        
   
-        selectedShipIndex = parseInt(selectedShipNameWithIndex.substr(-1))
-        
-        shipLastId = shipLastId - selectedShipIndex
         
         if(isHorizontal && !newNotAllowedHorizontal.includes(shipLastId)){
+            for(let i=0;i<draggedShiplength;i++){
+                if(userSquares[parseInt(this.dataset.id)-selectedShipIndex + i].classList.contains('taken')){
+                    return;
+                }
+            }
             for(let i=0;i<draggedShiplength;i++){
                 userSquares[parseInt(this.dataset.id)-selectedShipIndex + i].classList.add('taken',shipClass)
             }
         }
         else if (!isHorizontal && !newNotAllowedVertical.includes(shipLastId)){
+            for(let i=0;i<draggedShiplength;i++){
+                if(userSquares[parseInt(this.dataset.id) + (width*(i-selectedShipIndex))].classList.contains('taken')){
+                    return;
+                }
+            }
             for(let i=0;i<draggedShiplength;i++){
                 userSquares[parseInt(this.dataset.id) + (width*(i-selectedShipIndex))].classList.add('taken',shipClass)
             }
@@ -255,8 +284,8 @@ document.addEventListener('DOMContentLoaded',() => {
         else{
             return
         }
-        console.log(displayGrid[0])
-        displayGrid[0].removeChild(draggedShip)
+
+        displayGrid[0].removeChild(draggedShip);
 
     }
 
@@ -268,7 +297,7 @@ document.addEventListener('DOMContentLoaded',() => {
     function playGame(){
         if (isGameOver) return
         if (currentPlayer == 'user'){
-            turnDisplay.innerHTML = 'Your Go'
+            turnDisplay.innerHTML = 'Your Turn'
             computerSquares.forEach(square => square.addEventListener('click',function(e){
                 revealSquare(square)
             }))
@@ -278,7 +307,17 @@ document.addEventListener('DOMContentLoaded',() => {
             setTimeout (computerGo, 1000)
         }
     }
-    startButton.addEventListener('click',playGame)
+
+    function startGame(){
+        if(displayGrid[0].innerHTML.trim().length == 0){
+             playGame();
+        }
+        else{
+            alert("Not ready yet, Please place all of your pieces");
+        }
+    }
+
+    startButton.addEventListener('click',startGame)
 
     let destroyerCount = 0;
     let submarineCount = 0;
