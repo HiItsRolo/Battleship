@@ -6,9 +6,11 @@ if (isset($_SESSION['username']) && $_SESSION['loggedin'] == true){
     $uname = $_SESSION['username'];
     $uid = $_SESSION['id'];
     $gid = $_SESSION['gameid'];
-    $sql = $conn->query("SELECT PlayerAction FROM game WHERE GameId = $gid AND UserName != '$uname';");
+    $sql = $conn->query("SELECT ChatMessage FROM game WHERE GameId = $gid AND UserName != '$uname';");
     $row = $sql->fetch_assoc();
-    echo json_encode($row['PlayerAction']);
+    echo json_encode($row['ChatMessage']);
+
+    $conn->query("UPDATE game SET ChatMessage=NULL WHERE UserName != '$uname' AND GameId = $gid;");
 
 }
 else{

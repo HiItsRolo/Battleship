@@ -59,13 +59,16 @@ if ($conn->query($sql) === TRUE) {
 
 $sql = "CREATE TABLE game(
 	UserName varchar(50) NOT NULL,
-	GameOpponent varchar(50) NOT NULL,
-	GameId int(11) NOT NULL,
-	GameColor varchar(10) NOT NULL,
-	CurrentTurn varchar(10) NOT NULL,
-	PlayerAction varchar(50) NOT NULL,
-	OpponentAction varchar(50) NOT NULL,
-	GameState varchar(50) NOT NULL
+	UserId int(11) NOT NULL,
+	GameOpponent varchar(50),
+	GameId int(11),
+	GameColor varchar(10),
+	CurrentTurn varchar(10),
+	PlayerAction varchar(50),
+	OpponentAction varchar(50),
+	GameState varchar(50),
+	ChatMessage varchar(50),
+	PRIMARY KEY (UserId)
 )";
 
 if ($conn->query($sql) === TRUE) {

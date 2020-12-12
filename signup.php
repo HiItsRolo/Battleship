@@ -10,7 +10,7 @@ if (isset($_POST['username'])) {
 
     
     if ($conn->query($sql) === TRUE) {
-        $output = "Hello $username! You are now registered! Please log in to use your account";
+        echo $output = "Hello $username! You are now registered! Please log in to use your account";
         header( "refresh:2;url=index.html" );
       } 
     else {

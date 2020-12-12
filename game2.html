@@ -9,9 +9,35 @@
 	<script src="app.js"></script>
 </head>
 <body>
+	<div>
+		<div id = "serverStatus"></div>
+		<input type="number" id = "gameid" placeholder="Enter gameid #">
+		<button type="button" id = "connectServer" onclick = "startSession();">
+			PRESS HERE to Connect
+		</button>
+		<input type="text" id = "chatmessage" style="display: none;">
+		<button type="button" id = "sendmessage" onclick = "sendMessage();" style="display: none;">
+				PRESS HERE to send message
+		</button>
+		<div>
+			<textarea id="chatBox" style="display:none" readonly></textarea>
+		</div>
+
+	</div>
+	
 	<div class="container">
-		<div class="grid" id = "grid-user"></div>
-		<div class="grid" id = "grid-computer"></div>
+		<div>
+			<div class="grid" id = "grid-user">
+			</div>			
+			<p id="username" style = "display:block"></p>
+			<p id="userStatus" style = "display:block"></p>
+		</div>
+		<div>
+			<div class="grid" id = "grid-computer"></div>			
+			<p id="opponentname" style = "display:block"></p>
+			<p id="opponentStatus" style = "display:block"></p>
+		</div>
+
 	</div>
 
 	<div class="hidden-info">
@@ -21,7 +47,7 @@
 		<h3 id="info"></h3>
 
 	</div>
-	<div class="grid-display">
+	<div id ="griddisplay" class="grid-display">
 		<div class="ship destroyer-container" draggable="true">
 			<div id="destroyer-0"></div>
 			<div id="destroyer-1"></div>
@@ -50,18 +76,7 @@
 			<div id="carrier-4"></div>
 		</div>
 	</div>
-	<div>
-	<input type="text" id = "comms">
-	<button type="button" onclick = "startSession();">
-		PRESS HERE to Connect
-	</button>
-	<button type="button" onclick = "sendMessage();">
-			PRESS HERE to send message
-	</button>
-	<div id = "TESTING">
-		
-	</div>
-	</div>
+
 
 </body>
 

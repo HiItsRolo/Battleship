@@ -1,61 +1,149 @@
 
-/*
-function startSession(){
-    
-    let xhr = new XMLHttpRequest();
+
+window.onload = function() {
+
+	let xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState === XMLHttpRequest.DONE){
 			if(xhr.status === 200) {
-
+				alert("Hello, Welcome to Battleship");
 			}
 		}
 	}
 
-	xhr.open("POST", "startgamesession.php",true);	
+	xhr.open("POST", "resetGameTable.php",true);	
 	xhr.send();
+
 }
 
-let interval = setTimeout(testServer,5000);
+var interval;
+let ready = false;
 
-function testServer(){
-    let test = document.getElementById("TESTING");
-
+function startSession(){
+    let gameid = JSON.stringify(document.getElementById("gameid").value);
     let xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState === XMLHttpRequest.DONE){
 			if(xhr.status === 200) {
+                let data = JSON.parse(xhr.responseText);
+                if(data == "Player Not Logged In"){
+                    alert("Please Log In")
+                }
+                else{
+                    document.getElementById("connectServer").style.display = "none";
+                    document.getElementById("serverStatus").innerHTML = "Connected to GameID: " + gameid;
+                    document.getElementById("gameid").style.display = "none";
+                    document.getElementById("sendmessage").style.display = "inline";
+                    document.getElementById("chatmessage").style.display = "inline";
+                    document.getElementById("chatBox").style.display = "block";
 
-				let data = JSON.parse(xhr.responseText);
-      
-                test.innerHTML = data;
+                    document.getElementById('username').innerHTML = "Username: " + data;
+                    setTimeout(checkforOpponent,5000);
+                    setTimeout(testServer,5000);
+                }
+			}
+		}
+	}
 
+    xhr.open("POST", "startgamesession.php",true);	
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	xhr.send(gameid);
+}
+
+function checkforOpponent(){
+    let xhr = new XMLHttpRequest()
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState === XMLHttpRequest.DONE){
+			if(xhr.status === 200) {
+                let data = JSON.parse(xhr.responseText);
+                if (data){
+                    document.getElementById('opponentname').innerHTML = "Username: " + data;
+                    clearTimeout(checkforOpponent);
+                    setTimeout(checkGameReady,5000);
+                }
+                else{
+                    setTimeout(checkforOpponent,5000);
+                }
+			}
+		}
+	}
+
+	xhr.open("POST", "checkforopponent.php",true);	
+    xhr.send();
+}
+
+
+function checkGameReady(){
+    let xhr = new XMLHttpRequest()
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState === XMLHttpRequest.DONE){
+			if(xhr.status === 200) {
+                let data = JSON.parse(xhr.responseText);
+                if (data == "Opponent Ready"){
+                    document.getElementById('opponentStatus').innerHTML = "Ready";
+                    setTimeout(checkGameReady,5000);
+                }
+                else if (data == true)
+                {                      
+                    document.getElementById('opponentStatus').innerHTML = "Ready";
+                    document.getElementById('userStatus').innerHTML = "Ready";
+                    ready = true;
+                }
+                else{
+                    setTimeout(checkGameReady,5000);
+                }
+			}
+		}
+	}
+
+	xhr.open("POST", "checkReady.php",true);	
+    xhr.send();
+}
+
+
+function testServer(){
+    let chat = document.getElementById("chatBox");
+    let xhr = new XMLHttpRequest()
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState === XMLHttpRequest.DONE){
+			if(xhr.status === 200) {
+                let data = JSON.parse(xhr.responseText);
+                if (data){
+                    chat.value += "Opponent: " + data + '\r\n';
+                    chat.scrollTop = chat.scrollHeight;
+                }
 			}
 		}
 	}
 
 	xhr.open("POST", "receivemessage.php",true);	
     xhr.send();
-    interval = setTimeout(testServer,5000);
+    setTimeout(testServer,5000);
 }
 
+
 function sendMessage(){
-    let comms = JSON.stringify(document.getElementById("comms").value);
-    let test = document.getElementById("TESTING");
+    let comms = document.getElementById("chatmessage");
+    let chat = document.getElementById("chatBox");
 
     let xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState === XMLHttpRequest.DONE){
 			if(xhr.status === 200) {
-    
-			}
+                chat.value += "You: " + comms.value + '\r\n';
+                comms.value = "";  
+                chat.scrollTop = chat.scrollHeight;
+                document.getElementById("sendmessage").disabled = true;                
+                setTimeout(function() {document.getElementById("sendmessage").disabled = false}, 5000);
+            }
 		}
 	}
 
-	xhr.open("GET", "sendmessage.php?message=" + comms,true);	
+	xhr.open("GET", "sendmessage.php?message=" + JSON.stringify(comms.value),true);	
 	xhr.send();
 }
 
-*/
+
 
 
 
@@ -294,6 +382,56 @@ document.addEventListener('DOMContentLoaded',() => {
 
 
     //game logic
+
+    var interval;
+
+    function startGame(){
+        if(displayGrid[0].innerHTML.trim().length == 0){
+            document.getElementById("griddisplay").style.display = "none";
+            if(document.getElementById("connectServer").style.display == "none") 
+            {   
+                sendReady();
+                interval = checkReady();
+            }
+            else
+                alert("Please Connect to a server")
+        }
+        else{
+            alert("Not ready yet, Please place all of your pieces");
+        }
+    }
+
+    startButton.addEventListener('click',startGame)
+
+    function sendReady(){
+        let xhr = new XMLHttpRequest()
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE){
+                if(xhr.status === 200) {
+                    document.getElementById('userStatus').innerHTML = "Ready";
+                }
+            }
+        }
+    
+        xhr.open("POST", "readyUp.php",true);	
+        xhr.send();
+    }
+
+
+    function checkReady(){
+
+        if(ready){
+            clearTimeout(checkReady);
+            playGame();
+        }
+        else{
+            setTimeout(checkReady,5000);
+        }
+    }
+
+
+    
+
     function playGame(){
         if (isGameOver) return
         if (currentPlayer == 'user'){
@@ -308,16 +446,6 @@ document.addEventListener('DOMContentLoaded',() => {
         }
     }
 
-    function startGame(){
-        if(displayGrid[0].innerHTML.trim().length == 0){
-             playGame();
-        }
-        else{
-            alert("Not ready yet, Please place all of your pieces");
-        }
-    }
-
-    startButton.addEventListener('click',startGame)
 
     let destroyerCount = 0;
     let submarineCount = 0;
@@ -343,10 +471,6 @@ document.addEventListener('DOMContentLoaded',() => {
             currentPlayer = 'computer'
             playGame()
         }
-
-
-    
-        
         
     }
 
@@ -370,7 +494,6 @@ document.addEventListener('DOMContentLoaded',() => {
         checkForWins();
         currentPlayer = 'user'
         turnDisplay.innerHTML = 'Your Go'
-        
     }
     
     function checkForWins(){
@@ -438,5 +561,7 @@ document.addEventListener('DOMContentLoaded',() => {
         isGameOver = true;
         startButton.removeEventListener('click',playGame)
     }
+
+
 
 })
