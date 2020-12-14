@@ -8,7 +8,14 @@
 	<link rel="stylesheet" href ="stylesheet.css">
 	<script src="app.js"></script>
 </head>
+
 <body>
+	<header>
+		<div class="header-container">
+			<img src="logo.svg" alt="Fresno State" width="192px" height="41px">
+		</div>
+	</header>
+
 	<div>
 		<div id = "serverStatus"></div>
 		<input type="number" id = "gameid" placeholder="Enter gameid #">
@@ -44,7 +51,9 @@
 	<div class="hidden-info">
 		<button id="start">Start Game</button>
 		<button id="rotate">Rotate Your Ship</button>
-		<h3 id="currentTurn">Waiting for Game to Start</h3>
+		<div class="popout-container" style="width:240px; margin-top:10px">
+		<h3 id="currentTurn" style="color:#c41230">Waiting for Game to Start</h3>
+		</div>
 		<h3 id="info"></h3>
 		<h3 id="gameTimer"></h3>
 
@@ -79,7 +88,11 @@
 		</div>
 	</div>
 
-
+<footer>
+	<p class="footer">For demonstration purposes only! All graphics and background images are externally sourced. Fresno State Logo courtesy of and in compliance with
+		<a href="https://brand.fresnostate.edu/visual-identity/university-brand-guidelines/">https://brand.fresnostate.edu/visual-identity/university-brand-guidelines/</a>
+	</p>
+</footer>
 </body>
 
 </html>
