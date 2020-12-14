@@ -2,7 +2,7 @@ Work Done:
 
 Rogelio Romero: AJAX functions, PHP functions, JS Game Logic, Database and Leaderboards.
 
-
+Nathaniel Bean: CSS, Styling, Fresno State logo and color compliance.
 
 
 
