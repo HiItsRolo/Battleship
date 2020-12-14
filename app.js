@@ -248,27 +248,6 @@ document.addEventListener('DOMContentLoaded',() => {
         },
     ]
 
-    /*
-    //Draw AI's ships in random location
-    function generate(ship) {
-        let randomDirection = Math.floor(Math.random() * ship.directions.length);
-        let current = ship.directions[randomDirection];
-        if (randomDirection == 0) direction = 1;
-        if (randomDirection == 1) direction = 10;
-        let randomStart = Math.abs(Math.floor(Math.random() * opponentSquares.length - (ship.directions[0].length * direction)));
-
-        const isTaken = current.some(index => opponentSquares[randomStart + index].classList.contains('taken'))
-        const isAtRightEdge = current.some(index => (randomStart + index) % width === width - 1);
-        const isAtLeftEdge = current.some(index => (randomStart + index) % width === 0);
-
-        if(!isTaken && !isAtRightEdge && !isAtLeftEdge) current.forEach(index => opponentSquares[randomStart + index].classList.add('taken',ship.name));
-        else generate(ship)
-    }
-
-    for(let i=0;i < shipArray.length;i++){
-        generate(shipArray[i]);
-    }
-*/
     //rotate the ships
     function rotate() {
         if (isHorizontal) {
