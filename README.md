@@ -5,6 +5,8 @@ To install webpages as host:
 
     -Apache + MySQL is required (Xampp)
 
+    -Move files into directory xampp/htdocs/
+
     -in PHPMYADMIN: Create a User with the following properties:
         User name: ADMIN
         Host name: localhost
