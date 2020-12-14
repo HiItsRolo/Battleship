@@ -2,6 +2,8 @@
 session_start();
 include_once("connectToDB.php");
 
+$activeT = json_decode($_GET['timePlayed']);
+
 function computeTime($t1, $t2){
   
     $parts = explode(':',$t1);
@@ -16,11 +18,21 @@ function computeTime($t1, $t2){
 
 
     $hours += floor($minutes / 60);
+
+    $minutes = $minutes % 60;
+
+
     if ($hours < 10){
         $hours = "0$hours";
     }
+    if ($minutes < 10){
+        $minutes = "0$minutes";
+    }
+    if($seconds < 10){
+        $seconds = "0$seconds";
+    }
 
-    $minutes = $minutes % 60;
+    
 
     return json_encode("$hours:$minutes:$seconds");
     
@@ -34,7 +46,6 @@ if (isset($_SESSION['username']) && $_SESSION['loggedin'] == true){
    
     $wins = $row['NumWins'] + 1;
     $games = $row['NumGames'] + 1;
-    $activeT = "00:15:10";
     $time = $row['TimePlayed'];
 
     $time = computeTime($activeT, $time);

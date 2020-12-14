@@ -30,12 +30,11 @@ if (isset($_POST['username'])) {
 		$output = "Hello $uname!, you are now logged in. Returning to the main page" ;
 
 	
-		
-	$sql2 = $conn->query("SELECT * FROM game WHERE UserName='$username' AND UserId=$id LIMIT 1"); // query the person
+	$sql2 = $conn->query("SELECT * FROM game WHERE UserName='$uname' AND UserId=$id LIMIT 1"); // query the person
 	$existCount = $sql2->num_rows; // count the row nums
 	if ($existCount == 0) { // evaluate the count
-		$sql2 = $conn->query("INSERT INTO game (UserName,UserId,GameOpponent,GameId,CurrentTurn,PlayerAction,OpponentAction,GameState,ChatMessage) 
-		VALUES ('$username', $id, NULL,NULL,NULL,NULL,NULL,NULL)"); // query the person
+		$conn->query("INSERT INTO game (UserName,UserId,GameOpponent,GameId,CurrentTurn,PlayerAction,OpponentAction,GameState,ChatMessage) 
+		VALUES ('$username', $id, NULL,NULL,NULL,NULL,NULL,NULL,NULL)"); // query the person
    }
    		header( "refresh:5;url=index.html" );
 

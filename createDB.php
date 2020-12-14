@@ -62,7 +62,6 @@ $sql = "CREATE TABLE game(
 	UserId int(11) NOT NULL,
 	GameOpponent varchar(50),
 	GameId int(11),
-	GameColor varchar(10),
 	CurrentTurn varchar(10),
 	PlayerAction varchar(50),
 	OpponentAction varchar(50),

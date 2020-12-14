@@ -27,15 +27,16 @@
 	
 	<div class="container">
 		<div>
-			<div class="grid" id = "grid-user">
-			</div>			
+			<div class="grid" id ="grid-user"></div>			
 			<p id="username" style = "display:block"></p>
 			<p id="userStatus" style = "display:block"></p>
+			<p id="userShipsRemaining" style = "display:block"></p>
 		</div>
 		<div>
-			<div class="grid" id = "grid-computer"></div>			
+			<div class="grid" id ="grid-opponent"></div>			
 			<p id="opponentname" style = "display:block"></p>
 			<p id="opponentStatus" style = "display:block"></p>
+			<p id="opponentShipsRemaining" style = "display:block"></p>
 		</div>
 
 	</div>
@@ -43,8 +44,9 @@
 	<div class="hidden-info">
 		<button id="start">Start Game</button>
 		<button id="rotate">Rotate Your Ship</button>
-		<h3 id="whose-go">Your Go</h3>
+		<h3 id="currentTurn">Waiting for Game to Start</h3>
 		<h3 id="info"></h3>
+		<h3 id="gameTimer"></h3>
 
 	</div>
 	<div id ="griddisplay" class="grid-display">
