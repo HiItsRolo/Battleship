@@ -1,0 +1,11 @@
+Work Done:
+
+Rogelio Romero: AJAX functions, PHP functions, JS Game Logic, Database and Leaderboards.
+
+
+
+
+
+Nov 1-8 HTML pages created and basic game logic implemented (create game board, placement of pieces, click to mark action)
+Nov 29-Dec 6 Database functions created, leaderboards and corresponding functions created, login and register pages
+Dec 7-Present Everything else (Game logic, AJAX functions, PHP functions, JS functions, Linking of Webpages)
