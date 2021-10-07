@@ -67,6 +67,11 @@ $sql = "CREATE TABLE game(
 	OpponentAction varchar(50),
 	GameState varchar(50),
 	ChatMessage varchar(50),
+	RemainingDestroyer int(1),
+	RemainingSubmarine int(1),
+	RemainingCruiser int(1),
+	RemainingBattleship int(1),
+	RemainingCarrier int(1),
 	PRIMARY KEY (UserId)
 )";
 

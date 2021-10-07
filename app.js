@@ -34,11 +34,13 @@ function startSession(){
                     document.getElementById("gameid").style.display = "none";
                     document.getElementById("sendmessage").style.display = "inline";
                     document.getElementById("chatmessage").style.display = "inline";
-                    document.getElementById("chatBox").style.display = "block";
+                    document.getElementById("chatBoxContainer").style.display = "block";
+                    
+                    
 
                     document.getElementById('username').innerHTML = "Username: " + data;
-                    setTimeout(checkforOpponent,5000);
-                    setTimeout(testServer,5000);
+                    setTimeout(checkforOpponent,500);
+                    setTimeout(testServer,500);
                 }
 			}
 		}
@@ -58,10 +60,10 @@ function checkforOpponent(){
                 if (data){
                     document.getElementById('opponentname').innerHTML = "Username: " + data;
                     clearTimeout(checkforOpponent);
-                    setTimeout(checkGameReady,5000);
+                    setTimeout(checkGameReady,500);
                 }
                 else{
-                    setTimeout(checkforOpponent,5000);
+                    setTimeout(checkforOpponent,500);
                 }
 			}
 		}
@@ -80,7 +82,7 @@ function checkGameReady(){
                 let data = JSON.parse(xhr.responseText);
                 if (data == "Opponent Ready"){
                     document.getElementById('opponentStatus').innerHTML = "Ready";
-                    setTimeout(checkGameReady,5000);
+                    setTimeout(checkGameReady,500);
                 }
                 else if (data == true)
                 {                      
@@ -89,7 +91,7 @@ function checkGameReady(){
                     ready = true;
                 }
                 else{
-                    setTimeout(checkGameReady,5000);
+                    setTimeout(checkGameReady,500);
                 }
 			}
 		}
@@ -165,7 +167,7 @@ function sendMessage(){
 document.addEventListener('DOMContentLoaded',() => {
     const userGrid = document.getElementById('grid-user');
     const opponentGrid = document.getElementById('grid-opponent');
-    const displayGrid = document.getElementsByClassName('grid-display');
+    const displayGrid = document.getElementsByClassName('ships-display');
     const ships = document.querySelectorAll('.ship');
     const destroyer = document.getElementsByClassName('destroyer-container');
     const submarine = document.getElementsByClassName('submarine-container');
@@ -261,6 +263,7 @@ document.addEventListener('DOMContentLoaded',() => {
             battleship[0].classList.toggle('battleship-container-vertical');
             if(typeof carrier[0] != 'undefined')
             carrier[0].classList.toggle('carrier-container-vertical');
+            document.getElementsByClassName("ships-display")[0].style.display = "flex";
             isHorizontal = false;
             return
         }
@@ -275,6 +278,7 @@ document.addEventListener('DOMContentLoaded',() => {
             battleship[0].classList.toggle('battleship-container-vertical');
             if(typeof carrier[0] != 'undefined')
             carrier[0].classList.toggle('carrier-container-vertical');
+            document.getElementsByClassName("ships-display")[0].style.display = "block";
             isHorizontal = true;
             return
         }
@@ -384,6 +388,7 @@ document.addEventListener('DOMContentLoaded',() => {
     function startGame(){
         if(displayGrid[0].innerHTML.trim().length == 0){
             document.getElementById("griddisplay").style.display = "none";
+            document.getElementById('rotate').style.display = "none";
             if(document.getElementById("connectServer").style.display == "none") 
             {
                 startButton.removeEventListener('click',startGame)   
@@ -437,10 +442,10 @@ document.addEventListener('DOMContentLoaded',() => {
             clearTimeout(checkReady);
             initGame();
             turnDisplay.innerHTML = "Please wait, the game is about to start"
-            setTimeout(activateButtons,10000);
+            setTimeout(activateButtons,1000);
         }
         else{
-            setTimeout(checkReady,5000);
+            setTimeout(checkReady,500);
         }
     }
 
@@ -451,7 +456,7 @@ document.addEventListener('DOMContentLoaded',() => {
 
         updateTimer();
 
-        playGame();
+        setTimeout(playGame(),1500);
     }
 
     
@@ -459,6 +464,7 @@ let timer = document.getElementById('gameTimer');
 var startTime;
 let elapsedTime = 0;
 var timeInterval;
+let winner = 'none';
 
 function updateTimer(){     
     startTime = Date.now() - elapsedTime;
@@ -503,7 +509,7 @@ function timeToString(time) {
         if (currentPlayer == 'opponent'){
             getAction();
         }
-        else if (!square.classList.contains('boom') && !square.classList.contains('miss')){
+        else if (!square.classList.contains('hit') && !square.classList.contains('miss')){
             sendMove(square.dataset.id);
             receiveResponse(square);
         }
@@ -552,27 +558,27 @@ function timeToString(time) {
     function sendResponse(action){
             var temp
             if (userSquares[action].classList.contains('destroyer')) {
-                userSquares[action].classList.add('boom')
+                userSquares[action].classList.add('hit')
                 OpponentdestroyerCount++
                 temp = "HitDestroyer"
             }
             else if (userSquares[action].classList.contains('submarine')) {
-                userSquares[action].classList.add('boom')
+                userSquares[action].classList.add('hit')
                 OpponentsubmarineCount++
                 temp = "HitSubmarine"
             }
             else if (userSquares[action].classList.contains('cruiser')) {
-                userSquares[action].classList.add('boom')
+                userSquares[action].classList.add('hit')
                 OpponentcruiserCount++
                 temp = "HitCruiser"
             }
             else if (userSquares[action].classList.contains('battleship')) {
-                userSquares[action].classList.add('boom')
+                userSquares[action].classList.add('hit')
                 OpponentbattleshipCount++
                 temp = "HitBattleship"
             }
             else if (userSquares[action].classList.contains('carrier')) {
-                userSquares[action].classList.add('boom')
+                userSquares[action].classList.add('hit')
                 OpponentcarrierCount++
                 temp = "HitCarrier"
             }
@@ -603,28 +609,33 @@ function timeToString(time) {
                 if(xhr.status === 200) {
                     let data = JSON.parse(xhr.responseText);
                     if (data == "HitDestroyer"){
-                        square.classList.add('boom');
+                        square.classList.add('hit');
                         destroyerCount++;
+                        updateShipCount('Destroyer');
                         updateTurn();
                     }
                     else if (data == "HitSubmarine"){
-                        square.classList.add('boom');
+                        square.classList.add('hit');
                         submarineCount++;
+                        updateShipCount('Submarine');
                         updateTurn();
                     }
                     else if (data == "HitCruiser"){
-                        square.classList.add('boom');
+                        square.classList.add('hit');
                         cruiserCount++;
+                        updateShipCount('Cruiser');
                         updateTurn();
                     }
                     else if (data == "HitBattleship"){
-                        square.classList.add('boom');
+                        square.classList.add('hit');
                         battleshipCount++;
+                        updateShipCount('Battleship');
                         updateTurn();
                     }
                     else if (data == "HitCarrier"){
-                        square.classList.add('boom');
+                        square.classList.add('hit');
                         carrierCount++;
+                        updateShipCount('Carrier');
                         updateTurn();
                     }
                     else if (data == "Miss"){
@@ -643,6 +654,20 @@ function timeToString(time) {
 
     }
 
+    function updateShipCount(shipHit){
+        let data = "Remaining"+shipHit;
+        let xhr = new XMLHttpRequest()
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE){
+                if(xhr.status === 200) {
+                }
+            }
+        }    
+        xhr.open("GET", "updateShipCount.php?shipHit="+JSON.stringify(data),true);	
+        xhr.send();
+    }
+
+    
     function waitForUpdate(){
         let xhr = new XMLHttpRequest()
         xhr.onreadystatechange = function() {
@@ -718,104 +743,128 @@ function timeToString(time) {
         checkOpponentWin()
     }
 
+    function checkUserServerWin(){
+        let xhr = new XMLHttpRequest()
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE){
+                if(xhr.status === 200) {
+                    let data = JSON.parse(xhr.responseText);
+                        if(data == "userWin"){
+                            clearInterval(timeInterval);
+                            isGameOver = true;
+                            winner = 'userWin';
+                            infoDisplay.innerHTML = "You Win";
+                            data = timeToString(elapsedTime);
+                            xhr = new XMLHttpRequest()
+                            xhr.onreadystatechange = function() {
+                                if (xhr.readyState === XMLHttpRequest.DONE){
+                                    if(xhr.status === 200) {
+                                    }
+                                }
+                            }
+                        
+                            xhr.open("GET", "wongame.php?timePlayed="+JSON.stringify(data),true);	
+                            xhr.send();
+                        }
+                }
+            }
+        }
+    
+        xhr.open("POST", "checkUserServerWin.php",true);	
+        xhr.send();
+    }
+
+    function checkOpponentServerWin(){
+        let xhr = new XMLHttpRequest()
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE){
+                if(xhr.status === 200) {
+                    let data = JSON.parse(xhr.responseText);
+                    if(data == "opponentWin"){
+                        clearInterval(timeInterval);
+                        isGameOver = true;
+                        winner = 'opponentWin';
+                        infoDisplay.innerHTML = "Opponent Win"
+                        data = timeToString(elapsedTime);
+                        xhr = new XMLHttpRequest()
+                        xhr.onreadystatechange = function() {
+                            if (xhr.readyState === XMLHttpRequest.DONE){
+                                if(xhr.status === 200) {
+                                    
+                                }
+                            }
+                        }
+        
+                        xhr.open("GET", "lostgame.php?timePlayed="+JSON.stringify(data),true);	
+                        xhr.send();
+
+                    }
+                }
+            }
+        }
+    
+        xhr.open("POST", "checkOpponentServerWin.php",true);	
+        xhr.send();
+    }
+
     function checkHumanWin(){
         if (destroyerCount === 2){
             opponentShipCount--;
             infoDisplay.innerHTML = "You sunk the opponent's destroyer";
-            destroyerCount = 10
+            destroyerCount = 10;
         }
         if (submarineCount === 3){
             opponentShipCount--;
             infoDisplay.innerHTML = "You sunk the opponent's submarine";
-            submarineCount = 10
+            submarineCount = 10;
         }
         if (cruiserCount === 3){
             opponentShipCount--;
             infoDisplay.innerHTML = "You sunk the opponent's cruiser";
-            cruiserCount = 10
+            cruiserCount = 10;
         }
         if (battleshipCount === 4){
             opponentShipCount--;
             infoDisplay.innerHTML = "You sunk the opponent's battleship";
-            battleshipCount = 10
+            battleshipCount = 10;
         }
         if (carrierCount === 5){
             opponentShipCount--;
             infoDisplay.innerHTML = "You sunk the opponent's carrier";
-            carrierCount = 10
+            carrierCount = 10;
         }
-
-        if((destroyerCount + submarineCount + cruiserCount + battleshipCount + carrierCount) === 50){
-            infoDisplay.innerHTML = "You Win";
-
-            let data = timeToString(elapsedTime);
-            let xhr = new XMLHttpRequest()
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === XMLHttpRequest.DONE){
-                    if(xhr.status === 200) {
-                        
-                    }
-                }
-            }
-        
-            xhr.open("GET", "wongame.php?timePlayed="+JSON.stringify(data),true);	
-            xhr.send();
-
-            gameOver()
-        }
+        checkUserServerWin();
     }
 
     function checkOpponentWin(){
         if (OpponentdestroyerCount === 2){
             userShipCount--;
             infoDisplay.innerHTML = "Opponent sunk your destroyer"
-            OpponentdestroyerCount = 10
+            OpponentdestroyerCount = 10;
         }
         if (OpponentsubmarineCount === 3){
             userShipCount--;
             infoDisplay.innerHTML = "Opponent sunk your submarine"
-            OpponentsubmarineCount = 10
+            OpponentsubmarineCount = 10;
         }
         if (OpponentcruiserCount === 3){
             userShipCount--;
             infoDisplay.innerHTML = "Opponent sunk your cruiser"
-            OpponentcruiserCount = 10
+            OpponentcruiserCount = 10;
         }
         if (OpponentbattleshipCount === 4){
             userShipCount--;
             infoDisplay.innerHTML = "Opponent sunk your battleship"
-            OpponentbattleshipCount = 10
+            OpponentbattleshipCount = 10;
         }
         if (OpponentcarrierCount === 5){
             userShipCount--;
             infoDisplay.innerHTML = "Opponent sunk your carrier"
-            OpponentcarrierCount = 10
+            OpponentcarrierCount = 10;
         }
-
-        if((OpponentdestroyerCount + OpponentsubmarineCount + OpponentcruiserCount + OpponentbattleshipCount + OpponentcarrierCount) === 50){
-            infoDisplay.innerHTML = "Opponent Win"
-
-            let data = timeToString(elapsedTime);
-            let xhr = new XMLHttpRequest()
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === XMLHttpRequest.DONE){
-                    if(xhr.status === 200) {
-                        
-                    }
-                }
-            }
-        
-            xhr.open("GET", "lostgame.php?timePlayed="+JSON.stringify(data),true);	
-            xhr.send();
-
-            gameOver()
-        }
+        checkOpponentServerWin();
     }
 
-    function gameOver(){
-        clearInterval(timeInterval);
-        isGameOver = true;
-    }
 
 
 

@@ -7,15 +7,15 @@
 	<title>Battleship</title>
 	<link rel="stylesheet" href ="stylesheet.css">
 	<script src="app.js"></script>
+
 </head>
 
 <body>
-	<header>
-		<div class="header-container">
-			<img src="logo.svg" alt="Fresno State" width="192px" height="41px">
-		</div>
-	</header>
-
+<header>
+	<div class="header-container">
+		<img src="logo.svg" alt="Fresno State" width="192px" height="41px">
+	</div>
+</header>
 	<div>
 		<div id = "serverStatus"></div>
 		<input type="number" id = "gameid" placeholder="Enter gameid #">
@@ -26,13 +26,48 @@
 		<button type="button" id = "sendmessage" onclick = "sendMessage();" style="display: none;">
 				PRESS HERE to send message
 		</button>
-		<div>
-			<textarea id="chatBox" style="display:none" readonly></textarea>
+		<div id ="chatBoxContainer" style="display: none">
+			<textarea id="chatBox" style="display: block" readonly></textarea>
 		</div>
-
 	</div>
 
+	
 	<div class="container">
+		<div>
+			<div id ="griddisplay" class="grid-display">
+				<h3> Place your pieces</h3>
+				<div class = "ships-display">
+				<div class="ship destroyer-container" draggable="true">
+					<div id="destroyer-0"></div>
+					<div id="destroyer-1"></div>
+				</div>
+				<div class="ship submarine-container" draggable="true">
+					<div id="submarine-0"></div>
+					<div id="submarine-1"></div>
+					<div id="submarine-2"></div>
+				</div>
+				<div class="ship cruiser-container" draggable="true">
+					<div id="cruiser-0"></div>
+					<div id="cruiser-1"></div>
+					<div id="cruiser-2"></div>
+				</div>
+				<div class="ship battleship-container" draggable="true">
+					<div id="battleship-0"></div>
+					<div id="battleship-1"></div>
+					<div id="battleship-2"></div>
+					<div id="battleship-3"></div>
+				</div>
+				<div class="ship carrier-container" draggable="true">
+					<div id="carrier-0"></div>
+					<div id="carrier-1"></div>
+					<div id="carrier-2"></div>
+					<div id="carrier-3"></div>
+					<div id="carrier-4"></div>
+				</div>
+			</div>
+			</div>
+			<button id="rotate">Rotate Your Ship</button>
+		</div>
 		<div>
 			<div class="grid" id ="grid-user"></div>
 			<p id="username" style = "display:block"></p>
@@ -50,49 +85,21 @@
 
 	<div class="hidden-info">
 		<button id="start">Start Game</button>
-		<button id="rotate">Rotate Your Ship</button>
-		<div class="popout-container" style="width:240px; margin-top:10px">
+		<div class="popout-container" style="width:240px; height: 20vh;">
 		<h3 id="currentTurn" style="color:#c41230">Waiting for Game to Start</h3>
-		</div>
 		<h3 id="info"></h3>
 		<h3 id="gameTimer"></h3>
+		</div>
 
 	</div>
-	<div id ="griddisplay" class="grid-display">
-		<div class="ship destroyer-container" draggable="true">
-			<div id="destroyer-0"></div>
-			<div id="destroyer-1"></div>
-		</div>
-		<div class="ship submarine-container" draggable="true">
-			<div id="submarine-0"></div>
-			<div id="submarine-1"></div>
-			<div id="submarine-2"></div>
-		</div>
-		<div class="ship cruiser-container" draggable="true">
-			<div id="cruiser-0"></div>
-			<div id="cruiser-1"></div>
-			<div id="cruiser-2"></div>
-		</div>
-		<div class="ship battleship-container" draggable="true">
-			<div id="battleship-0"></div>
-			<div id="battleship-1"></div>
-			<div id="battleship-2"></div>
-			<div id="battleship-3"></div>
-		</div>
-		<div class="ship carrier-container" draggable="true">
-			<div id="carrier-0"></div>
-			<div id="carrier-1"></div>
-			<div id="carrier-2"></div>
-			<div id="carrier-3"></div>
-			<div id="carrier-4"></div>
-		</div>
-	</div>
-
 <footer>
 	<p class="footer">For demonstration purposes only! All graphics and background images are externally sourced. Fresno State Logo courtesy of and in compliance with
 		<a href="https://brand.fresnostate.edu/visual-identity/university-brand-guidelines/">https://brand.fresnostate.edu/visual-identity/university-brand-guidelines/</a>
 	</p>
 </footer>
+
+
+
 </body>
 
 </html>

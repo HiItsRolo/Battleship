@@ -10,15 +10,26 @@
 }
 
 header {
+	top:0;
 	padding: 30px;
 	border: none;
 	background-color: #c41230;
 }
 
 body {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	margin: 0px;
 	font-family: 'Unlock';
 	text-align: center;
-	background-image: url("bg_img_WofWgames.jpg");
+	background: url("bg_img_WofWgames.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+fieldset{
+	border:none;
 }
 
 ol, ul {
@@ -45,7 +56,11 @@ h1, h2, h3, h4, h5, h6 {
 	text-align: center;
 }
 
+
+
 footer {
+	margin-top:auto;
+	height: 30px;
 	font-family: 'Unlock';
 	padding: 30px;
 	text-align: center;
@@ -70,12 +85,31 @@ p.footer {
 	background-attachment: fixed;
 	background-size: cover;
 	width: 600px;
+	margin-top: 50px;
+	height: 85vh;
+	position:relative;
+	right:0px;
+	left:0px;
 	margin: auto;
 	padding-left: 10px;
 	padding-right: 10px;
-	border: 3px solid #13284c;
 }
 
+.vert-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 80%;
+}
+
+.leaderboard{
+	margin: 0 auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	color: gray;
+}
 
 .home_buttons{
 	font-family: 'Unlock';
@@ -89,6 +123,8 @@ button {
 
 .container{
 	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .playtable {
@@ -97,11 +133,14 @@ button {
 	border-collapse: collapse;
 }
 
+
 .gridSquare {
 	border: 3px solid white;
 }
 
+
 #chatBox {
+	margin: 0 auto;
 	overflow: auto;
 	width: 380px;
 	height: 50px;
@@ -134,6 +173,7 @@ button {
 	width: 400px;
 	height: 400px;
 	margin: 20px;
+	margin-top: 40px;
 	background-color: yellow;
 }
 
@@ -247,7 +287,7 @@ button {
 	background-color: green;
 }
 
-.boom{
+.hit{
 	background-color: red;
 }
 
